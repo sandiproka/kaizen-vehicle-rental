@@ -17,6 +17,7 @@ import Profile from "../pages/Profile";
 import Admin from "../pages/admin";
 import AdminRoute from "./AdminRoute";
 import Dashboard from "../pages/Dashboard";
+import PaymentSuccess from "../pages/PaymentSuccess";
 
 
 const AppRoutes = () => {
@@ -31,6 +32,7 @@ const AppRoutes = () => {
           <Route path="/about" element={<About />} />
           <Route path="/vehicles" element={<Vehicles />} />
           <Route path="/vehicle/:id" element={<VehicleDetails />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
 
 
           <Route

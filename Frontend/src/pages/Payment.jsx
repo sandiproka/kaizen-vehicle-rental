@@ -19,13 +19,13 @@ const Payment = () => {
     cvv: "",
   });
 
-  // ✅ NEW DATE STATE
   const [dates, setDates] = useState({
     startDate: "",
     endDate: "",
   });
 
   const [loading, setLoading] = useState(false);
+  const [method, setMethod] = useState("card");
 
   if (!vehicle) {
     return <div className="text-white p-10">No vehicle selected</div>;
@@ -35,8 +35,8 @@ const Payment = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
-    // ✅ UPDATED VALIDATION
+  // 💳 CARD PAYMENT
+  const handleCardPayment = async () => {
     if (
       !form.name ||
       !form.card ||
@@ -49,17 +49,12 @@ const Payment = () => {
       return;
     }
 
-    const token = localStorage.getItem("token");
-
-    if (!vehicle?.id) {
-      toast.error("Vehicle ID missing ❌");
-      return;
-    }
-
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/bookings", {
+      const token = localStorage.getItem("token");
+
+      await fetch("http://localhost:5000/api/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,26 +67,61 @@ const Payment = () => {
         }),
       });
 
-      const data = await res.json();
-      console.log("RESPONSE:", data);
-
       toast.success("Payment successful!");
-
-      setTimeout(() => {
-        navigate("/profile");
-      }, 1500);
-
-    } catch (err) {
-      console.error(err);
+      navigate("/profile");
+    } catch {
       toast.error("Payment failed");
     } finally {
       setLoading(false);
     }
   };
 
+  // 🔥 KHALTI PAYMENT
+  const handleKhalti = async () => {
+    if (!dates.startDate || !dates.endDate) {
+      toast.error("Select rental dates first");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/payment/khalti/initiate",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: 1000,
+            vehicleId: vehicle.id,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!data.payment_url) {
+        toast.error("Khalti failed");
+        return;
+      }
+
+      // ✅ STORE DATA BEFORE REDIRECT
+      localStorage.setItem("vehicleId", vehicle.id);
+      localStorage.setItem("startDate", dates.startDate);
+      localStorage.setItem("endDate", dates.endDate);
+
+      // 🔥 RESET FLAG (IMPORTANT)
+      localStorage.removeItem("bookingDone");
+
+      window.location.href = data.payment_url;
+    } catch (err) {
+      console.error(err);
+      toast.error("Payment failed");
+    }
+  };
+
   return (
     <div className="bg-zinc-950 text-white min-h-screen px-8 py-12">
-
       <div className="px-8 pt-6">
         <BackButton />
       </div>
@@ -101,27 +131,37 @@ const Payment = () => {
       </h1>
 
       <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-
-        {/* VEHICLE */}
         <div className="bg-zinc-900 p-6 rounded-xl">
-
           <img
             src={vehicle.image || vehicle.images?.[0]}
             className="w-full h-60 object-cover rounded mb-4"
           />
-
-          <h2 className="text-2xl font-semibold">
-            {vehicle.name}
-          </h2>
-
+          <h2 className="text-2xl font-semibold">{vehicle.name}</h2>
           <p className="text-amber-400 text-xl">
             ${vehicle.price?.toLocaleString()}
           </p>
-
         </div>
 
-        {/* FORM */}
         <div className="bg-zinc-900 p-6 rounded-xl space-y-4">
+          <div className="flex gap-4">
+            <button
+              onClick={() => setMethod("card")}
+              className={`px-4 py-2 rounded ${
+                method === "card" ? "bg-amber-400 text-black" : "bg-zinc-800"
+              }`}
+            >
+              Card
+            </button>
+
+            <button
+              onClick={() => setMethod("khalti")}
+              className={`px-4 py-2 rounded ${
+                method === "khalti" ? "bg-purple-600" : "bg-zinc-800"
+              }`}
+            >
+              Khalti
+            </button>
+          </div>
 
           <input
             name="name"
@@ -136,10 +176,8 @@ const Payment = () => {
             className="w-full p-3 bg-zinc-800 rounded"
           />
 
-          {/* ✅ NEW DATE INPUTS */}
           <input
             type="date"
-            value={dates.startDate}
             onChange={(e) =>
               setDates({ ...dates, startDate: e.target.value })
             }
@@ -148,52 +186,19 @@ const Payment = () => {
 
           <input
             type="date"
-            value={dates.endDate}
             onChange={(e) =>
               setDates({ ...dates, endDate: e.target.value })
             }
             className="w-full p-3 bg-zinc-800 rounded"
           />
 
-          <input
-            name="card"
-            placeholder="Card Number"
-            onChange={handleChange}
-            className="w-full p-3 bg-zinc-800 rounded"
-          />
-
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              name="expiry"
-              placeholder="MM/YY"
-              onChange={handleChange}
-              className="p-3 bg-zinc-800 rounded"
-            />
-            <input
-              name="cvv"
-              placeholder="CVV"
-              onChange={handleChange}
-              className="p-3 bg-zinc-800 rounded"
-            />
-          </div>
-
-          {/* ✅ LOADING TEXT */}
-          {loading && (
-            <p className="text-center text-amber-400 animate-pulse">
-              Processing payment...
-            </p>
-          )}
-
           <button
-            onClick={handleSubmit}
-            disabled={loading}
-            className="w-full bg-amber-400 text-black py-3 rounded font-semibold disabled:opacity-50"
+            onClick={method === "card" ? handleCardPayment : handleKhalti}
+            className="w-full bg-amber-400 text-black py-3 rounded"
           >
-            {loading ? "Processing..." : "Pay Now"}
+            {method === "card" ? "Pay Now" : "Pay with Khalti"}
           </button>
-
         </div>
-
       </div>
     </div>
   );
