@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import VehicleCard from "../components/vehicle/VehicleCard";
 
-import BackButton from "../components/UI/BackButton";
-
-
-
 const Vehicles = () => {
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState("All");
@@ -12,71 +8,94 @@ const Vehicles = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  
+  // ✅ NEW: TYPE (car / bike)
+  const [type, setType] = useState("car");
 
-  // 🔥 FETCH FROM BACKEND
-useEffect(() => {
-  const fetchVehicles = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/api/vehicles");
-      const data = await res.json();
+  // 🔥 FETCH FROM BACKEND (UPDATED)
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `http://localhost:5000/api/vehicles?type=${type}`
+        );
+        const data = await res.json();
 
-      if (!Array.isArray(data)) throw new Error();
+        if (!Array.isArray(data)) throw new Error();
 
-      setVehicles(data);
-    } catch (err) {
-      console.error(err);
-      setVehicles([]);
-    } finally {
-      setLoading(false); // 🔥 IMPORTANT
-    }
-  };
+        setVehicles(data);
+      } catch (err) {
+        console.error(err);
+        setVehicles([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchVehicles();
-}, []);
+    fetchVehicles();
+  }, [type]);
 
   // 🔥 FILTER USING BACKEND DATA
-const filteredVehicles = Array.isArray(vehicles)
-  ? vehicles.filter((vehicle) => {
-      const matchesSearch = vehicle.name
-        .toLowerCase()
-        .includes(search.toLowerCase());
+  const filteredVehicles = Array.isArray(vehicles)
+    ? vehicles.filter((vehicle) => {
+        const matchesSearch = vehicle.name
+          .toLowerCase()
+          .includes(search.toLowerCase());
 
-      const matchesBrand =
-        brand === "All" || vehicle.brand === brand;
+        const matchesBrand =
+          brand === "All" || vehicle.brand === brand;
 
-      const matchesPrice =
-        priceRange === "All" ||
-        (priceRange === "under2" && vehicle.price < 2000000) ||
-        (priceRange === "2to3" &&
-          vehicle.price >= 2000000 &&
-          vehicle.price <= 3000000) ||
-        (priceRange === "above3" && vehicle.price > 3000000);
+        const matchesPrice =
+          priceRange === "All" ||
+          (priceRange === "under2" && vehicle.price < 2000000) ||
+          (priceRange === "2to3" &&
+            vehicle.price >= 2000000 &&
+            vehicle.price <= 3000000) ||
+          (priceRange === "above3" && vehicle.price > 3000000);
 
-      return matchesSearch && matchesBrand && matchesPrice;
-    })
-  : [];
+        return matchesSearch && matchesBrand && matchesPrice;
+      })
+    : [];
 
   if (loading) {
-  return (
-    <div className="text-white p-10 text-center">
-      Loading vehicles...
-    </div>
-  );
-}
+    return (
+      <div className="text-white p-10 text-center">
+        Loading vehicles...
+      </div>
+    );
+  }
 
   return (
-
-    
     <div className="bg-zinc-950 text-white min-h-screen px-8 py-10">
 
-      {/* <div className="px-8 pt-6">
-        <BackButton />
-      </div> */}
-
-      <h1 className="text-4xl font-bold mb-10">
-        Explore Vehicles
+      <h1 className="text-4xl font-bold mb-6">
+        Explore {type === "car" ? "Cars" : "Bikes"}
       </h1>
+
+      {/* 🔥 TYPE TOGGLE */}
+      <div className="flex gap-4 mb-6">
+        <button
+          onClick={() => setType("car")}
+          className={`px-4 py-2 rounded ${
+            type === "car"
+              ? "bg-amber-400 text-black"
+              : "bg-zinc-800"
+          }`}
+        >
+          Cars
+        </button>
+
+        <button
+          onClick={() => setType("bike")}
+          className={`px-4 py-2 rounded ${
+            type === "bike"
+              ? "bg-amber-400 text-black"
+              : "bg-zinc-800"
+          }`}
+        >
+          Bikes
+        </button>
+      </div>
 
       <div className="grid md:grid-cols-4 gap-10">
 
@@ -104,6 +123,9 @@ const filteredVehicles = Array.isArray(vehicles)
                 <option>BMW</option>
                 <option>Toyota</option>
                 <option>Lamborghini</option>
+                <option>Ducati</option>
+                <option>Kawasaki</option>
+                <option>Yamaha</option>
               </select>
             </div>
 

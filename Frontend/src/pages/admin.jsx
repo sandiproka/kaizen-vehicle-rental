@@ -16,6 +16,7 @@ const Admin = () => {
     brand: "",
     description: "",
     images: [],
+    type: "car", // ✅ NEW
   });
 
   const [vehicles, setVehicles] = useState([]);
@@ -32,48 +33,49 @@ const Admin = () => {
       .catch(() => toast.error("Failed to load stats"));
   }, []);
 
-  // 🔥 LOAD IMAGES
-  const imageModules = import.meta.glob("/public/cars/**/*.{jpg,jpeg,png,webp}", {
+  // 🔥 LOAD CAR IMAGES
+  const carModules = import.meta.glob("/public/cars/**/*.{jpg,jpeg,png,webp}", {
     eager: true,
   });
 
-  const imagePaths = Object.keys(imageModules).map((path) =>
-    path.replace("/public/cars/", "")
-  );
+  const bikeModules = import.meta.glob("/public/bikes/**/*.{jpg,jpeg,png,webp}", {
+    eager: true,
+  });
 
-  const groupedImages = imagePaths.reduce((acc, path) => {
-    const [brand] = path.split("/");
-    if (!acc[brand]) acc[brand] = [];
-    acc[brand].push("/cars/" + path);
-    return acc;
-  }, {});
+  const getImages = () => {
+    const modules = form.type === "car" ? carModules : bikeModules;
+
+    const paths = Object.keys(modules).map((path) =>
+      path.replace(`/public/${form.type}s/`, "")
+    );
+
+    return paths.reduce((acc, path) => {
+      const [brand] = path.split("/");
+      if (!acc[brand]) acc[brand] = [];
+      acc[brand].push(`/${form.type}s/` + path);
+      return acc;
+    }, {});
+  };
+
+  const groupedImages = getImages();
 
   // 🚗 FETCH VEHICLES
-const fetchVehicles = async () => {
-  try {
-    const token = localStorage.getItem("token");
+  const fetchVehicles = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/vehicles");
+      const data = await res.json();
 
-    const res = await fetch("http://localhost:5000/api/vehicles", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      if (!Array.isArray(data)) throw new Error();
 
-    const data = await res.json();
-
-    if (!Array.isArray(data)) {
-      throw new Error("Invalid response");
+      setVehicles(data);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to load vehicles");
+      setVehicles([]);
+    } finally {
+      setLoading(false);
     }
-
-    setVehicles(data);
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to load vehicles");
-    setVehicles([]); // prevents crash
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   useEffect(() => {
     fetchVehicles();
@@ -88,7 +90,7 @@ const fetchVehicles = async () => {
     }));
   };
 
-  // ✅ FIXED SUBMIT
+  // ✅ SUBMIT
   const handleSubmit = async () => {
     if (!form.name || !form.price || !form.brand) {
       return toast.error("Fill all fields");
@@ -103,6 +105,7 @@ const fetchVehicles = async () => {
       description: form.description,
       image: form.images[0],
       images: form.images,
+      type: form.type, // ✅ IMPORTANT
     };
 
     try {
@@ -127,6 +130,7 @@ const fetchVehicles = async () => {
         brand: "",
         description: "",
         images: [],
+        type: "car",
       });
 
       setEditingId(null);
@@ -152,9 +156,9 @@ const fetchVehicles = async () => {
       ]
     : [];
 
-    if (loading) {
-  return <div className="text-white p-10">Loading admin...</div>;
-}
+  if (loading) {
+    return <div className="text-white p-10">Loading admin...</div>;
+  }
 
   return (
     <div className="bg-black text-white min-h-screen p-10">
@@ -188,37 +192,47 @@ const fetchVehicles = async () => {
         {/* FORM */}
         <div className="bg-zinc-900 p-6 rounded space-y-4">
 
-          <h2 className="text-xl font-semibold mb-4">
-          {editingId ? "Edit Vehicle" : "Add Vehicle"}
-        </h2>
+          <h2 className="text-xl font-semibold">
+            {editingId ? "Edit Vehicle" : "Add Vehicle"}
+          </h2>
 
-         <input
-          placeholder="Vehicle Name"
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-          className="w-full p-3 bg-zinc-800 rounded text-white"
-        />
+          {/* TYPE SELECT */}
+          <select
+            value={form.type}
+            onChange={(e) => setForm({ ...form, type: e.target.value, images: [] })}
+            className="w-full p-3 bg-zinc-800 rounded text-white"
+          >
+            <option value="car">Car</option>
+            <option value="bike">Bike</option>
+          </select>
 
-      <input
-        placeholder="Price"
-        value={form.price}
-        onChange={(e) => setForm({ ...form, price: e.target.value })}
-        className="w-full p-3 bg-zinc-800 rounded text-white"
-      />
+          <input
+            placeholder="Vehicle Name"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            className="w-full p-3 bg-zinc-800 rounded text-white"
+          />
 
-      <input
-        placeholder="Brand"
-        value={form.brand}
-        onChange={(e) => setForm({ ...form, brand: e.target.value })}
-        className="w-full p-3 bg-zinc-800 rounded text-white"
-      />
+          <input
+            placeholder="Price"
+            value={form.price}
+            onChange={(e) => setForm({ ...form, price: e.target.value })}
+            className="w-full p-3 bg-zinc-800 rounded text-white"
+          />
 
-      <textarea
-        placeholder="Description"
-        value={form.description}
-        onChange={(e) => setForm({ ...form, description: e.target.value })}
-        className="w-full p-3 bg-zinc-800 rounded text-white"
-      />
+          <input
+            placeholder="Brand"
+            value={form.brand}
+            onChange={(e) => setForm({ ...form, brand: e.target.value })}
+            className="w-full p-3 bg-zinc-800 rounded text-white"
+          />
+
+          <textarea
+            placeholder="Description"
+            value={form.description}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+            className="w-full p-3 bg-zinc-800 rounded text-white"
+          />
 
           {/* IMAGE SELECTOR */}
           {Object.keys(groupedImages).map((brand) => (
@@ -226,10 +240,14 @@ const fetchVehicles = async () => {
               <p className="text-amber-400">{brand}</p>
               <div className="grid grid-cols-4 gap-2">
                 {groupedImages[brand].map((img) => (
-                  <img key={img} src={img}
+                  <img
+                    key={img}
+                    src={img}
                     onClick={() => toggleImage(img)}
                     className={`h-20 cursor-pointer ${
-                      form.images.includes(img) ? "border-2 border-amber-400" : ""
+                      form.images.includes(img)
+                        ? "border-2 border-amber-400"
+                        : ""
                     }`}
                   />
                 ))}
@@ -237,38 +255,54 @@ const fetchVehicles = async () => {
             </div>
           ))}
 
-          <button onClick={handleSubmit}>
-            {editingId ? "Update" : "Add"}
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-amber-400 text-black py-2 rounded font-semibold"
+          >
+            {adding ? "Processing..." : editingId ? "Update" : "Add"}
           </button>
         </div>
 
         {/* LIST */}
         <div>
-          
-          {Array.isArray(vehicles) && vehicles.map((v) => (
-            <div key={v.id} className="flex justify-between bg-zinc-900 p-3 mb-2">
+          {vehicles.map((v) => (
+            <div key={v.id} className="flex justify-between bg-zinc-900 p-3 mb-2 rounded">
+
               <div className="flex gap-4">
-                <img src={v.image} className="w-20" />
+                <img src={v.image} className="w-20 h-16 object-cover rounded" />
                 <div>
-                  <p>{v.name}</p>
-                  <p>${v.price}</p>
+                  <p className="font-semibold">{v.name}</p>
+                  <p className="text-amber-400">${v.price}</p>
+                  <p className="text-xs text-zinc-400">{v.type}</p>
                 </div>
               </div>
 
-              <div className="flex gap-2">
-                <button onClick={() => {
-                  setEditingId(v.id);
-                  setForm({
-                    name: v.name,
-                    price: v.price,
-                    brand: v.brand,
-                    description: v.description || "",
-                    images: v.images || [v.image],
-                  });
-                }}>Edit</button>
+              <div className="flex gap-3 items-center">
+                <button
+                  className="text-blue-400"
+                  onClick={() => {
+                    setEditingId(v.id);
+                    setForm({
+                      name: v.name,
+                      price: v.price,
+                      brand: v.brand,
+                      description: v.description || "",
+                      images: v.images || [v.image],
+                      type: v.type || "car",
+                    });
+                  }}
+                >
+                  Edit
+                </button>
 
-                <button onClick={() => deleteVehicle(v.id)}>Delete</button>
+                <button
+                  className="text-red-400"
+                  onClick={() => deleteVehicle(v.id)}
+                >
+                  Delete
+                </button>
               </div>
+
             </div>
           ))}
         </div>

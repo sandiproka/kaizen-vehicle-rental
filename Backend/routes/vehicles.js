@@ -6,13 +6,24 @@ const router = express.Router();
 // ✅ GET all vehicles (PUBLIC)
 router.get("/", async (req, res) => {
   try {
-    const result = await db.query(
-      "SELECT * FROM vehicles ORDER BY id DESC"
-    );
+    const { type } = req.query;
+
+    let result;
+
+    if (type) {
+      result = await db.query(
+        "SELECT * FROM vehicles WHERE type=$1 ORDER BY id DESC",
+        [type]
+      );
+    } else {
+      result = await db.query(
+        "SELECT * FROM vehicles ORDER BY id DESC"
+      );
+    }
 
     res.json(result.rows);
   } catch (err) {
-    console.error("❌ FETCH ERROR:", err);
+    console.error(err);
     res.status(500).json({ error: "Failed to fetch vehicles" });
   }
 });
