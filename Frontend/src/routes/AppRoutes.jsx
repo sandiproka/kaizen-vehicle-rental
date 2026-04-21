@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Landing from "../pages/Landing";
 import About from "../pages/About";
+import Contact from "../pages/Contact";
+
 import Vehicles from "../pages/Vehicles";
 import VehicleDetails from "../pages/VehicleDetails";
 import Payment from "../pages/Payment";
@@ -29,6 +31,7 @@ const AppRoutes = () => {
         <Route element={<MainLayout />}>
 
           <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/" element={<Landing />} />
           <Route path="/about" element={<About />} />
           <Route path="/vehicles" element={<Vehicles />} />
