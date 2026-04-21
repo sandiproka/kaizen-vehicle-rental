@@ -36,6 +36,10 @@ const Navbar = () => {
           About
         </Link>
 
+        <Link to="/contact" className="hover:text-amber-400">
+          Contact
+        </Link>
+
         <Link to="/vehicles" className="hover:text-amber-400">
           Vehicles
         </Link>

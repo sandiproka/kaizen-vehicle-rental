@@ -28,6 +28,7 @@ const AppRoutes = () => {
         {/* ✅ Layout Wrapper */}
         <Route element={<MainLayout />}>
 
+          <Route path="/about" element={<About />} />
           <Route path="/" element={<Landing />} />
           <Route path="/about" element={<About />} />
           <Route path="/vehicles" element={<Vehicles />} />

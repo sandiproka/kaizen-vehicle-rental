@@ -14,9 +14,6 @@ const Payment = () => {
   const [form, setForm] = useState({
     name: "",
     email: user?.email || "",
-    card: "",
-    expiry: "",
-    cvv: "",
   });
 
   const [dates, setDates] = useState({
@@ -39,9 +36,6 @@ const Payment = () => {
   const handleCardPayment = async () => {
     if (
       !form.name ||
-      !form.card ||
-      !form.expiry ||
-      !form.cvv ||
       !dates.startDate ||
       !dates.endDate
     ) {
