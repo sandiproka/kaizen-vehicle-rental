@@ -4,9 +4,10 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null); // 🔥 ADD THIS
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
 
@@ -14,37 +15,40 @@ export const AuthProvider = ({ children }) => {
       try {
         const payload = JSON.parse(atob(storedToken.split(".")[1]));
 
-        setUser({
+        const userData = {
           id: payload.id,
           email: payload.email,
           role: payload.role,
-        });
+        };
 
-        setToken(storedToken); // 🔥 IMPORTANT
+        setUser(userData);
+        setToken(storedToken);
       } catch (err) {
         console.error("Invalid token");
+        localStorage.removeItem("token");
       }
     }
 
     setLoading(false);
   }, []);
 
+
   const login = (data) => {
     localStorage.setItem("token", data.token);
-    localStorage.setItem("user", JSON.stringify(data.user));
 
-    setToken(data.token); // 🔥 IMPORTANT
-
-    setUser({
+    const userData = {
       id: data.user.id,
       email: data.user.email,
       role: data.user.role,
-    });
+    };
+
+    setUser(userData);
+    setToken(data.token);
   };
 
+ 
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user"); // 🔥 ADD THIS
     setUser(null);
     setToken(null);
   };

@@ -35,10 +35,10 @@ const Welcomecard = () => {
       onMouseMove={handleMouseMove}
       className="relative bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 rounded-2xl text-center py-20 px-6 overflow-hidden group"
     >
-      {/* Base Layer */}
+
       <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 z-0"></div>
 
-      {/* Image Reveal */}
+  
       <div
         className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 z-10"
         style={{
@@ -55,7 +55,7 @@ const Welcomecard = () => {
         />
       </div>
 
-      {/* Content */}
+  
       <div className="relative z-20">
         <h2 className="text-5xl font-light mb-4 text-zinc-200 tracking-wide">
           Welcome
