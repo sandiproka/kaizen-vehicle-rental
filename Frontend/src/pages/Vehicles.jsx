@@ -8,10 +8,10 @@ const Vehicles = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ NEW: TYPE (car / bike)
+
   const [type, setType] = useState("car");
 
-  // 🔥 FETCH FROM BACKEND (UPDATED)
+
   useEffect(() => {
     const fetchVehicles = async () => {
       setLoading(true);
@@ -35,7 +35,7 @@ const Vehicles = () => {
     fetchVehicles();
   }, [type]);
 
-  // 🔥 FILTER USING BACKEND DATA
+
   const filteredVehicles = Array.isArray(vehicles)
     ? vehicles.filter((vehicle) => {
         const matchesSearch = vehicle.name
@@ -99,14 +99,14 @@ const Vehicles = () => {
 
       <div className="grid md:grid-cols-4 gap-10">
 
-        {/* Sidebar */}
+
         <div className="md:col-span-1 bg-zinc-900 p-6 rounded-xl h-fit">
 
           <h2 className="text-xl font-semibold mb-6">Filters</h2>
 
           <div className="space-y-6 text-sm">
 
-            {/* Brand */}
+     
             <div>
               <label className="block mb-2 text-zinc-400">Brand</label>
               <select
@@ -129,7 +129,7 @@ const Vehicles = () => {
               </select>
             </div>
 
-            {/* Price */}
+    
             <div>
               <label className="block mb-2 text-zinc-400">Price Range</label>
               <select
@@ -147,7 +147,7 @@ const Vehicles = () => {
           </div>
         </div>
 
-        {/* Vehicles */}
+  
         <div className="md:col-span-3">
 
           <input

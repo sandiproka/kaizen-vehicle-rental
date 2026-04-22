@@ -32,7 +32,7 @@ const Payment = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 💳 CARD PAYMENT
+
   const handleCardPayment = async () => {
     if (
       !form.name ||
@@ -70,7 +70,7 @@ const Payment = () => {
     }
   };
 
-  // 🔥 KHALTI PAYMENT
+
   const handleKhalti = async () => {
     if (!dates.startDate || !dates.endDate) {
       toast.error("Select rental dates first");
@@ -99,12 +99,12 @@ const Payment = () => {
         return;
       }
 
-      // ✅ STORE DATA BEFORE REDIRECT
+    
       localStorage.setItem("vehicleId", vehicle.id);
       localStorage.setItem("startDate", dates.startDate);
       localStorage.setItem("endDate", dates.endDate);
 
-      // 🔥 RESET FLAG (IMPORTANT)
+   
       localStorage.removeItem("bookingDone");
 
       window.location.href = data.payment_url;

@@ -4,10 +4,10 @@ const Footer = () => {
   return (
     <footer className="bg-black text-zinc-400 pt-20 pb-10 px-8 border-t border-zinc-800">
 
-      {/* Top */}
+
       <div className="grid md:grid-cols-4 gap-12 mb-16">
 
-        {/* Brand */}
+
         <div>
           <h2 className="text-2xl font-bold text-white mb-4 tracking-wide">
             KAIZEN
@@ -16,7 +16,7 @@ const Footer = () => {
             Elevating your driving experience with a curated collection of luxury and exotic vehicles.
           </p>
 
-          {/* Social */}
+
           <div className="flex gap-4 text-lg">
             <FaInstagram className="hover:text-amber-400 cursor-pointer transition" />
             <FaLinkedin className="hover:text-amber-400 cursor-pointer transition" />
@@ -24,7 +24,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Quick Links */}
+
         <div>
           <h3 className="text-white font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
@@ -40,7 +40,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Categories */}
+
         <div>
           <h3 className="text-white font-semibold mb-4">Categories</h3>
           <ul className="space-y-2 text-sm">
@@ -55,7 +55,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Newsletter / Contact */}
+
         <div>
           <h3 className="text-white font-semibold mb-4">Stay Updated</h3>
           <p className="text-sm mb-4">
@@ -74,7 +74,7 @@ const Footer = () => {
             </button>
           </div>
 
-          {/* Contact Info */}
+
           <div className="mt-6 text-sm space-y-1">
             <p>Pokhara, Nepal</p>
             <p>sandip@kaizen.com</p>
@@ -84,7 +84,7 @@ const Footer = () => {
 
       </div>
 
-      {/* Bottom */}
+
       <div className="border-t border-zinc-800 pt-6 flex flex-col md:flex-row justify-between items-center">
 
         <p className="text-sm text-zinc-500">

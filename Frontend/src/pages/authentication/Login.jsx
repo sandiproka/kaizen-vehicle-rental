@@ -40,10 +40,10 @@ const handleSubmit = async (e) => {
       return;
     }
 
-    // ✅ save token
+   
     localStorage.setItem("token", data.token);
 
-    // ✅ update context
+
     login(data);
 
     toast.success("Login successful");
@@ -71,7 +71,7 @@ const handleSubmit = async (e) => {
           Login to KAIZEN marketplace
         </p>
 
-        {/* Email */}
+
         <input
           type="email"
           placeholder="Email"
@@ -80,7 +80,7 @@ const handleSubmit = async (e) => {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        {/* Password */}
+
         <div className="relative mb-4">
           <input
             type={showPassword ? "text" : "password"}
@@ -98,7 +98,7 @@ const handleSubmit = async (e) => {
           </span>
         </div>
 
-        {/* Button */}
+
         <button className="w-full bg-amber-400 text-black py-3 rounded font-semibold hover:bg-amber-300 transition">
           Login
         </button>

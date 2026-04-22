@@ -3,7 +3,7 @@ import db from "../db/db.js";
 
 const router = express.Router();
 
-// 🔥 ADMIN STATS
+
 router.get("/stats", async (req, res) => {
   try {
     const users = await db.query("SELECT COUNT(*) FROM users");

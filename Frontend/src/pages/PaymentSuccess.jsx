@@ -9,7 +9,7 @@ const PaymentSuccess = () => {
   useEffect(() => {
     const alreadySaved = localStorage.getItem("bookingDone");
 
-    if (alreadySaved) return; // 🛑 prevent duplicate
+    if (alreadySaved) return; 
 
     const params = new URLSearchParams(location.search);
     const status = params.get("status");
@@ -40,7 +40,7 @@ const PaymentSuccess = () => {
         }),
       });
 
-      // ✅ CLEAR STORAGE
+
       localStorage.removeItem("vehicleId");
       localStorage.removeItem("startDate");
       localStorage.removeItem("endDate");

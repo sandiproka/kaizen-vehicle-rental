@@ -49,7 +49,7 @@ const handleSubmit = async (e) => {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center text-white">
       
-      {/* ✅ ADD onSubmit HERE */}
+
       <form
         onSubmit={handleSubmit}
         className="bg-[#111] p-10 rounded-2xl w-[380px] border border-zinc-800 shadow-xl"

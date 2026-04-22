@@ -16,7 +16,7 @@ const Admin = () => {
     brand: "",
     description: "",
     images: [],
-    type: "car", // ✅ NEW
+    type: "car", // 
   });
 
   const [vehicles, setVehicles] = useState([]);
@@ -25,7 +25,7 @@ const Admin = () => {
   const [editingId, setEditingId] = useState(null);
   const [stats, setStats] = useState(null);
 
-  // 📊 STATS
+
   useEffect(() => {
     fetch("http://localhost:5000/api/admin/stats")
       .then((res) => res.json())
@@ -33,7 +33,7 @@ const Admin = () => {
       .catch(() => toast.error("Failed to load stats"));
   }, []);
 
-  // 🔥 LOAD CAR IMAGES
+
   const carModules = import.meta.glob("/public/cars/**/*.{jpg,jpeg,png,webp}", {
     eager: true,
   });
@@ -59,7 +59,7 @@ const Admin = () => {
 
   const groupedImages = getImages();
 
-  // 🚗 FETCH VEHICLES
+
   const fetchVehicles = async () => {
     try {
       const res = await fetch("http://localhost:5000/api/vehicles");
@@ -90,7 +90,7 @@ const Admin = () => {
     }));
   };
 
-  // ✅ SUBMIT
+
   const handleSubmit = async () => {
     if (!form.name || !form.price || !form.brand) {
       return toast.error("Fill all fields");
@@ -105,7 +105,7 @@ const Admin = () => {
       description: form.description,
       image: form.images[0],
       images: form.images,
-      type: form.type, // ✅ IMPORTANT
+      type: form.type, 
     };
 
     try {
@@ -164,7 +164,7 @@ const Admin = () => {
     <div className="bg-black text-white min-h-screen p-10">
       <h1 className="text-4xl font-bold mb-10">Admin Dashboard</h1>
 
-      {/* STATS */}
+   
       {stats && (
         <div className="mb-10">
           <div className="grid grid-cols-3 gap-4 mb-6">
@@ -189,14 +189,14 @@ const Admin = () => {
 
       <div className="grid md:grid-cols-2 gap-10">
 
-        {/* FORM */}
+
         <div className="bg-zinc-900 p-6 rounded space-y-4">
 
           <h2 className="text-xl font-semibold">
             {editingId ? "Edit Vehicle" : "Add Vehicle"}
           </h2>
 
-          {/* TYPE SELECT */}
+  
           <select
             value={form.type}
             onChange={(e) => setForm({ ...form, type: e.target.value, images: [] })}
@@ -234,7 +234,7 @@ const Admin = () => {
             className="w-full p-3 bg-zinc-800 rounded text-white"
           />
 
-          {/* IMAGE SELECTOR */}
+
           {Object.keys(groupedImages).map((brand) => (
             <div key={brand}>
               <p className="text-amber-400">{brand}</p>
@@ -263,7 +263,7 @@ const Admin = () => {
           </button>
         </div>
 
-        {/* LIST */}
+
         <div>
           {vehicles.map((v) => (
             <div key={v.id} className="flex justify-between bg-zinc-900 p-3 mb-2 rounded">

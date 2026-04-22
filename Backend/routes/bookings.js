@@ -4,7 +4,7 @@ import db from "../db/db.js";
 
 const router = express.Router();
 
-// ✅ CREATE BOOKING (UPDATED WITH DATES)
+
 router.post("/", authMiddleware, async (req, res) => {
   const { vehicleId, startDate, endDate } = req.body;
 
@@ -17,7 +17,7 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 
   try {
-    // check vehicle exists
+
     const vehicleCheck = await db.query(
       "SELECT id FROM vehicles WHERE id=$1",
       [vehicleId]
@@ -27,7 +27,7 @@ router.post("/", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: "Vehicle not found" });
     }
 
-    // 🔥 INSERT WITH DATES
+  
     const result = await db.query(
       `INSERT INTO bookings (user_id, vehicle_id, start_date, end_date)
        VALUES ($1, $2, $3, $4)
@@ -49,7 +49,7 @@ router.post("/", authMiddleware, async (req, res) => {
 });
 
 
-// ✅ GET BOOKINGS (UPDATED WITH DATES)
+
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const result = await db.query(
@@ -79,7 +79,7 @@ router.get("/", authMiddleware, async (req, res) => {
 });
 
 
-// ✅ DELETE BOOKING
+
 router.delete("/:id", authMiddleware, async (req, res) => {
   const { id } = req.params;
 

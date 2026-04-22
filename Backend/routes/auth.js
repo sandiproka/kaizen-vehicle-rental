@@ -45,7 +45,7 @@ router.post("/login", async (req, res) => {
     if (!valid) return res.status(400).json({ message: "Invalid password" });
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: "admin" }, // 👈 add role
+      { id: user.id, email: user.email, role: "admin" }, 
       "SECRET_KEY"
     );
 
@@ -54,7 +54,7 @@ router.post("/login", async (req, res) => {
         user: {
           id: user.id,
           email: user.email,
-          role: user.role, // 🔥 IMPORTANT
+          role: user.role, 
         },
       });
 

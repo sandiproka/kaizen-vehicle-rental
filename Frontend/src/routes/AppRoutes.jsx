@@ -27,7 +27,7 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
 
-        {/* ✅ Layout Wrapper */}
+
         <Route element={<MainLayout />}>
 
           <Route path="/about" element={<About />} />

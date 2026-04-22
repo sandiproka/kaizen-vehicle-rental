@@ -29,7 +29,7 @@ const Dashboard = () => {
     fetchBookings();
   }, []);
 
-  // 🔥 CALCULATIONS
+
   const today = new Date();
 
   const totalBookings = bookings.length;
@@ -45,13 +45,13 @@ const Dashboard = () => {
     return start > today;
   }).length;
 
-  // 🔥 RECENT BOOKINGS
+
   const recent = bookings.slice(0, 4);
 
   return (
     <div className="bg-zinc-950 text-white min-h-screen px-8 py-10">
 
-      {/* HEADER */}
+  
       <h1 className="text-4xl font-bold mb-2">
         Welcome, {user?.email}
       </h1>
@@ -59,7 +59,7 @@ const Dashboard = () => {
         Here’s your rental activity
       </p>
 
-      {/* STATS */}
+
       <div className="grid md:grid-cols-3 gap-6 mb-10">
 
         <div className="bg-zinc-900 p-6 rounded-xl">
@@ -85,7 +85,7 @@ const Dashboard = () => {
 
       </div>
 
-      {/* RECENT BOOKINGS */}
+  
       <h2 className="text-2xl font-semibold mb-4">
         Recent Bookings
       </h2>
@@ -113,7 +113,7 @@ const Dashboard = () => {
                 {new Date(b.end_date).toLocaleDateString()}
               </p>
 
-              {/* STATUS */}
+
               <p className="text-xs mt-1">
                 {new Date(b.start_date) <= today &&
                 new Date(b.end_date) >= today ? (
@@ -130,7 +130,7 @@ const Dashboard = () => {
 
       </div>
 
-      {/* QUICK ACTIONS */}
+   
       <h2 className="text-2xl font-semibold mb-4">
         Quick Actions
       </h2>

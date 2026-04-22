@@ -4,11 +4,11 @@ const { Pool } = pkg;
 const pool = new Pool({
   user: "postgres",
   host: "localhost",
-  database: "postgres", // MUST match where tables are
+  database: "postgres",
   password: "0000",
   port: 5432,
 
-  // 🔥 ADD THESE (IMPORTANT)
+
   ssl: false,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,

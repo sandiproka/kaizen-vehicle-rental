@@ -27,14 +27,14 @@ const Contact = () => {
 
     emailjs
       .send(
-        "service_7z1eq2m",      // ✅ your service ID
-        "template_1efx4gc",     // ✅ your template ID
+        "service_7z1eq2m",      
+        "template_1efx4gc",     
         {
           name: form.name,
           email: form.email,
           message: form.message,
         },
-        "fcR1nqfTYPYGwrwpD"     // ✅ your public key
+        "fcR1nqfTYPYGwrwpD"     
       )
       .then(() => {
         toast.success("Message sent successfully!");
@@ -52,12 +52,12 @@ const Contact = () => {
   return (
     <div className="bg-zinc-950 text-white min-h-screen px-8 py-16 max-w-6xl mx-auto">
 
-      {/* TITLE */}
+    
       <h1 className="text-5xl font-bold mb-10">CONTACT US</h1>
 
       <div className="grid md:grid-cols-2 gap-10">
 
-        {/* LEFT SIDE */}
+     
         <div className="space-y-6">
           <p className="text-gray-400">
             Have questions or need assistance? Feel free to reach out to us.
@@ -79,7 +79,7 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* FORM */}
+  
         <form
           onSubmit={handleSubmit}
           className="bg-zinc-900 p-6 rounded-xl space-y-4"

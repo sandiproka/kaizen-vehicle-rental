@@ -3,7 +3,7 @@ import db from "../db/db.js";
 
 const router = express.Router();
 
-// ✅ GET all vehicles (PUBLIC)
+
 router.get("/", async (req, res) => {
   try {
     const { type } = req.query;
@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ✅ ADD vehicle
+
 router.post("/", async (req, res) => {
   try {
     const { name, price, brand, image, images, description } = req.body;
@@ -53,7 +53,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ✅ UPDATE vehicle
+
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -81,7 +81,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// ✅ DELETE vehicle
+
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;

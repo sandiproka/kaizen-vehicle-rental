@@ -7,26 +7,26 @@ const About = () => {
 
 
 
-      {/* MAIN */}
+
       <div className="flex-1 px-8 py-16 max-w-7xl mx-auto w-full">
 
-        {/* TOP SMALL TEXT */}
+
         <p className="text-gray-400 mb-2">Kaizen</p>
 
-        {/* TITLE */}
+
         <h1 className="text-5xl font-bold mb-6">ABOUT US</h1>
 
-        {/* BUTTON */}
+
         <div className="mb-10">
           <button className="bg-zinc-800 px-6 py-2 rounded-full text-sm">
             Learn More
           </button>
         </div>
 
-        {/* CONTENT GRID */}
+
         <div className="grid md:grid-cols-2 gap-10 items-center">
 
-          {/* LEFT TEXT */}
+
           <div className="space-y-6">
             <div>
               <p className="text-gray-400 text-sm">Who we are</p>
@@ -51,7 +51,7 @@ const About = () => {
               Get Started
             </button>
 
-            {/* ICONS (optional placeholders) */}
+
             <div className="flex gap-4 text-gray-500 text-xl mt-4">
               <span>📱</span>
               <span>⚙️</span>
@@ -59,7 +59,7 @@ const About = () => {
             </div>
           </div>
 
-          {/* RIGHT IMAGE */}
+
           <div>
             <img
                 src="/bikes/bmw/45.jpg"
@@ -70,7 +70,7 @@ const About = () => {
 
         </div>
 
-        {/* BOTTOM SECTION */}
+
         <div className="grid md:grid-cols-3 gap-6 mt-16 text-gray-400 text-sm">
 
           <div>

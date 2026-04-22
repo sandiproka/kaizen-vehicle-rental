@@ -30,7 +30,7 @@ const Root = () => {
     <AuthProvider>
       <App />
       
-      {/* ✅ TOASTER MUST BE HERE */}
+
       <Toaster position="top-center" />
     </AuthProvider>
   );

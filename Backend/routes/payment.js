@@ -2,7 +2,7 @@ import express from "express";
 
 const router = express.Router();
 
-// ✅ INITIATE
+
 router.post("/khalti/initiate", async (req, res) => {
   try {
     const { amount, vehicleId } = req.body;
@@ -12,7 +12,7 @@ router.post("/khalti/initiate", async (req, res) => {
       {
         method: "POST",
         headers: {
-          Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`, // ✅ FIXED
+          Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -27,7 +27,7 @@ router.post("/khalti/initiate", async (req, res) => {
 
     const data = await response.json();
 
-    console.log("Khalti response:", data); // 👈 ADD THIS
+    console.log("Khalti response:", data);
 
     res.json(data);
   } catch (err) {
@@ -37,7 +37,7 @@ router.post("/khalti/initiate", async (req, res) => {
 });
 
 
-// ✅ VERIFY (THIS WAS MISSING / WRONG)
+
 router.post("/khalti/verify", async (req, res) => {
   try {
     const { pidx } = req.body;

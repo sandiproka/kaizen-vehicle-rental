@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BackButton from "../components/UI/BackButton";
 
-// 🔥 YOUR ORIGINAL GALLERY (UNCHANGED)
+
 const vehicleGallery = {
   "Apollo IE": [
     "/cars/apollo/IE/1.webp",
@@ -67,7 +67,7 @@ const VehicleDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // ✅ FIXED FETCH LOGIC
+
 useEffect(() => {
   const fetchVehicle = async () => {
     try {
@@ -83,7 +83,7 @@ useEffect(() => {
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false); // 🔥 IMPORTANT
+      setLoading(false); 
     }
   };
 
@@ -119,7 +119,7 @@ if (loading) {
 
       <div className="grid md:grid-cols-2 gap-12">
 
-        {/* LEFT */}
+  
         <div>
           <div
             className="rounded-xl overflow-hidden mb-4 cursor-zoom-in group"
@@ -148,7 +148,7 @@ if (loading) {
           </div>
         </div>
 
-        {/* RIGHT */}
+
         <div>
           <h1 className="text-4xl font-bold mb-4">{vehicle.name}</h1>
 
@@ -170,7 +170,7 @@ if (loading) {
 
       </div>
 
-      {/* MODAL */}
+  
       {isOpen && (
         <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
           <button

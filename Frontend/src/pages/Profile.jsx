@@ -6,7 +6,7 @@ const Profile = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔥 FETCH BOOKINGS
+
   useEffect(() => {
     const fetchBookings = async () => {
       try {
@@ -34,7 +34,7 @@ const Profile = () => {
     fetchBookings();
   }, []);
 
-  // 🔥 DELETE BOOKING
+
   const deleteBooking = async (id) => {
     try {
       await fetch(`http://localhost:5000/api/bookings/${id}`, {
@@ -66,7 +66,7 @@ const Profile = () => {
         Booking History
       </h2>
 
-      {/* 🔄 LOADING */}
+  
       {loading ? (
         <p className="text-zinc-400">Loading...</p>
       ) : bookings.length === 0 ? (
@@ -81,24 +81,24 @@ const Profile = () => {
               className="bg-zinc-900 p-4 rounded-xl border border-zinc-800"
             >
 
-              {/* ✅ IMAGE */}
+             
               <img
                 src={b.image || "/cars/apollo/IE/1.webp"}
                 alt={b.name}
                 className="h-40 w-full object-cover rounded mb-3"
               />
 
-              {/* ✅ NAME */}
+             
               <h3 className="font-semibold text-lg">
                 {b.name}
               </h3>
 
-              {/* ✅ PRICE */}
+              
               <p className="text-amber-400">
                 ${b.price?.toLocaleString()}
               </p>
 
-              {/* ✅ RENT DATES (NEW FIX) */}
+              
               <p className="text-zinc-400 text-sm mt-1">
                 {b.start_date
                   ? new Date(b.start_date).toLocaleDateString()
@@ -109,12 +109,12 @@ const Profile = () => {
                   : "N/A"}
               </p>
 
-              {/* ✅ CREATED DATE */}
+             
               <p className="text-xs text-zinc-500 mt-1">
                 Booked on: {new Date(b.created_at).toLocaleString()}
               </p>
 
-              {/* ✅ DELETE */}
+              
               <button
                 onClick={() => deleteBooking(b.id)}
                 className="text-red-400 text-sm mt-3 hover:underline"
